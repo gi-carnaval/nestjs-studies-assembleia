@@ -1,73 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Assembleia API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Ferramentas utilizadas
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Nest/cli
+- Visual Studio Code
+- Node Js
+- Docker
+- MySQL
+- Insominia
 
-## Description
+## Arquitetura com Module, Services e Controller
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### O projeto segue uma arquitetura organizada em módulos (Modules), serviços (Services) e controladores (Controllers), inspirada na Service-Oriented Architecture (SOA). Abaixo está uma explicação detalhada de cada componente:
 
-## Installation
+- Módulos (Modules): Os módulos são responsáveis por organizar logicamente a aplicação em unidades funcionais distintas. Cada módulo pode conter controladores, provedores de serviços e outros componentes relacionados. Isso promove uma estrutura modular e facilita a escalabilidade do projeto. Os módulos neste projeto podem ser encontrados em src/modules/*.module.ts.
 
-```bash
-$ npm install
-```
+- Serviços (Services): Os serviços encapsulam a lógica de negócio da aplicação. Eles realizam operações específicas, como interação com o banco de dados, processamento de dados, integração com APIs externas, entre outros. Os serviços são injetáveis em outros componentes, como controladores e outros serviços. Os serviços neste projeto podem ser encontrados em src/services/*.service.ts.
 
-## Running the app
+- Controladores (Controllers): Os controladores são responsáveis por lidar com as requisições HTTP e enviar as respostas adequadas de volta para o cliente. Eles definem as rotas da aplicação e mapeiam as requisições para os métodos apropriados nos serviços. Os controladores também podem ser responsáveis por validar os dados recebidos e gerenciar erros. Os controladores neste projeto podem ser encontrados em src/controllers/*.controller.ts.
 
-```bash
-# development
-$ npm run start
+# Rest
 
-# watch mode
-$ npm run start:dev
+**Definição**
 
-# production mode
-$ npm run start:prod
-```
+### Representational State Transfer
 
-## Test
+Conjunto de princípios e definições necessários para a criação de um projeto com interfaces bem definidas
 
-```bash
-# unit tests
-$ npm run test
+# HTTP
 
-# e2e tests
-$ npm run test:e2e
+**Definição**
 
-# test coverage
-$ npm run test:cov
-```
+### Hypertext Transfer Protocol
 
-## Support
+É um protocolo de comunicação utilizado para sistemas de informação de hipermídia, distribuídos e colaborativos.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Composição
 
-## Stay in touch
+* Request
+* Response
+* Query Params
+* Métodos (GET, POST, DELETE, etc)
+* Códigos de Status (200, 404, 500)
+* Cabeçalhos
+* Conteúdo
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Messagens HTTP
 
-## License
+#### Request
 
-Nest is [MIT licensed](LICENSE).
+* URL
+* Headers
+* Body (Conteúdo)
+* Método / Verbo  HTTP
+* Query Params
+
+#### Response
+
+* Headers
+* Body
+* Código de Status
+
+#### Méodos / Verbos HTTp
+
+Indica a ação a ser executada para um dado recurso
+
+* GET
+* POST
+* PUT
+* DELETE
+* PATCH
+
+#### Códigos de Status HTTP
+
+Indica a condição da respsota de uma requisição
+
+* 200 - OK
+* 400 - BAD REQUEST
+* 404 - NOT FOUND
+* 500 - SERVER ERROR
+
+# Pautas
+
+Objetos de votações nas assembléias do condomínio
+
+* Criar uma pauta
+* Iniciar a sessão para uma pauta
+* Listar pautas
+
+## Criar uma pauta
+
+Para criação da pauta será necessário informar a descrição da mesma, regras que deverão ser observadas:
+
+1. Só poderá existir uma Pauta por descrição
+
+## Iniciar a sessão para uma pauta
+
+Para iniciar a sesão de uma pauta, é necessário informar, em minutos, a quantidade de tempo que ela estará aberta para receber a votação, regras que deverão ser observadas?
+
+1. Se os munutos não forem passados, ela terá o valor padrão de 1o minutos.
+2. Se a pauta já tiver sido iniciada não poderá ser iniciada novamente.
+
+## Listar Pautas
+
+Lista as pautas, informando qual status, entre os status, temos:
+
+1. Sessão não iniciada
+2. Sessão iniciada
+3. Finalizada
+
+# Votos
+
+## Registrar voto
+
+Regista o voto de um associado para uma pauta.
+
+* Regras:
+  1. Pauta precisa existir e estar em sessão
+  2. Permitir apenas 1 voto por associado.
+
+
+# Resultaodos
+
+## Obter Resultados
+
+Dada uma **Pauta**, retorna seu resultado.
