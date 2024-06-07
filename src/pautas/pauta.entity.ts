@@ -23,6 +23,35 @@ export class Pauta {
   fechamento?: Date;
 
   obterStatus(): string {
-    return 'Sem Status';
+    if (this.fechamento && this.fechamento < new Date()) {
+      return StatusPauta.ENCERRADA;
+    }
+
+    if (this.abertura) {
+      return StatusPauta.INICIADA;
+    }
+
+    return StatusPauta.NAO_INICIADA;
   }
+
+  public isInitialized(): boolean {
+    return this.isInStatus(StatusPauta.INICIADA);
+  }
+  public isEnded(): boolean {
+    return this.isInStatus(StatusPauta.ENCERRADA);
+  }
+  public isAbbleToInit(): boolean {
+    return this.isInStatus(StatusPauta.NAO_INICIADA);
+  }
+
+  public isInStatus(verifyStatus: StatusPauta): boolean {
+    const status = this.obterStatus();
+    return status == verifyStatus;
+  }
+}
+
+enum StatusPauta {
+  NAO_INICIADA = 'Sessão não iniciada',
+  INICIADA = 'Sessão iniciada',
+  ENCERRADA = 'Sessão Encerrada',
 }
