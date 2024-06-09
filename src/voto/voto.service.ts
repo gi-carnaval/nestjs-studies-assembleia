@@ -6,6 +6,7 @@ import { Pauta } from 'src/pautas/pauta.entity';
 import { Result } from 'src/common/result';
 import { Associado } from './associado/associado.entity';
 import { HttpError } from 'src/common/httpError';
+import { ResultadoVotacaoResource } from './resultado/resultado.resource';
 
 @Injectable()
 export class VotoService {
@@ -20,7 +21,8 @@ export class VotoService {
     cpf: string,
     opcaoVoto: VoteOption,
   ): Promise<Result<Voto, HttpError>> {
-    if (!pauta.isInitialized) {
+    console.log('Status da Pauta: ', pauta.isInitialized());
+    if (!pauta.isInitialized()) {
       return new Result(
         null,
         new HttpError(
@@ -66,5 +68,53 @@ export class VotoService {
     });
 
     return !!voto;
+  }
+
+  async obterVotosPorPauta(pauta: Pauta): Promise<Voto[]> {
+    return await this.votoRepository.find({
+      where: {
+        pauta: {
+          id: pauta.id,
+        },
+      },
+    });
+  }
+
+  obterPosicaoVencedora(sim: number, nao: number): VoteOption {
+    if (sim == nao) {
+      return null;
+    }
+
+    return sim > nao ? VoteOption.SIM : VoteOption.NAO;
+  }
+
+  async obterResultado(
+    pauta: Pauta,
+  ): Promise<Result<ResultadoVotacaoResource, HttpError>> {
+    if (!pauta.isEnded()) {
+      return new Result(
+        null,
+        new HttpError('Resultado ainda não disponível.', HttpStatus.NOT_FOUND),
+      );
+    }
+
+    const votos: Voto[] = await this.obterVotosPorPauta(pauta);
+
+    const qtdSim = votos.filter((v) => v.voteOption == VoteOption.SIM).length;
+    const qtdNao = votos.filter((v) => v.voteOption == VoteOption.NAO).length;
+
+    const posicaoVencedora = this.obterPosicaoVencedora(qtdSim, qtdNao);
+
+    const resultado = new ResultadoVotacaoResource();
+
+    resultado.pauta = pauta.descricao;
+    resultado.abertura = pauta.abertura;
+    resultado.encerramento = pauta.fechamento;
+    resultado.totalVotos = votos.length;
+    resultado.quantidadeSim = qtdSim;
+    resultado.quantidadeNao = qtdNao;
+    resultado.opcaoGanhadora = posicaoVencedora;
+
+    return new Result(resultado, null);
   }
 }

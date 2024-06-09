@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Res,
+  Logger,
 } from '@nestjs/common';
 import { PautasService } from './pautas.service';
 import {
@@ -17,27 +18,40 @@ import {
 import { Response } from 'express';
 import { Pauta } from './pauta.entity';
 import { ErrorResponse } from 'src/common/error.resource';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('pautas')
+@ApiTags('Pautas')
 export class PautasController {
+  private readonly logger = new Logger(PautasController.name);
+
   constructor(private readonly service: PautasService) {}
 
   @Get()
+  @ApiOperation({ description: 'Rota destinada a listagem detodas as pautas' })
   async list(@Res() response: Response) {
     const results = await this.service.findAdll();
     return response.status(HttpStatus.OK).send(results.map(toRepresentation));
   }
 
   @Post()
+  @ApiOperation({ description: 'Rota destinada a criação de novas pautas' })
   async save(@Body() pauta: CriarPautaResource, @Res() response: Response) {
+    this.logger.log('Criando nova pauta');
+
     const newPauta: Pauta = toDomain(pauta);
     const result = await this.service.save(newPauta);
 
     if (result.isError()) {
+      this.logger.error(
+        'Erro ao tentar criar nova pauta: ' + result.error.message,
+      );
       return response
         .status(HttpStatus.CONFLICT)
         .send(new ErrorResponse(result.error.message));
     }
+
+    this.logger.log('Pauta cadastrada com sucesso! ' + pauta.descricao);
 
     return response
       .status(HttpStatus.CREATED)
@@ -45,6 +59,9 @@ export class PautasController {
   }
 
   @Post(':id/sessao')
+  @ApiOperation({
+    description: 'Rota destinada a iniciar a Sessão de uma Pauta',
+  })
   async openSession(
     @Param('id') id: string,
     @Body() resource: NewSessionResource,

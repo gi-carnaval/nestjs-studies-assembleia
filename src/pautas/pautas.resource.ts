@@ -1,16 +1,27 @@
+import { IsNotEmpty } from 'class-validator';
 import { Pauta } from './pauta.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CriarPautaResource {
+  @IsNotEmpty({ message: 'Descrição é uma campo obrigatório' })
+  @ApiProperty({
+    name: 'descricao',
+    example: 'Votação de troca de fechadura do protão',
+  })
   descricao: string;
 }
 
 export class PautaResource {
+  @ApiProperty()
   id: string;
+  @ApiProperty()
   descricao: string;
+  @ApiProperty()
   status: string;
 }
 
 export class NewSessionResource {
+  @ApiProperty({ default: 10 })
   minutes: number;
 }
 

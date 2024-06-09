@@ -10,8 +10,10 @@ import {
 } from '@nestjs/common';
 import { PeopleService } from './people.service';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('people')
+@ApiTags('People')
 export class PeopleController {
   constructor(private service: PeopleService) {}
 
