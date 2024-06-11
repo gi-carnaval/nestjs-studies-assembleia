@@ -7,4 +7,7 @@ export class Associado {
 
   @Column()
   cpf: string;
+
+  @Column()
+  name: string;
 }
