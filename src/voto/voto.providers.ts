@@ -1,7 +1,6 @@
 import { Provider } from '@nestjs/common';
 import { Voto } from './voto.entity';
 import { DataSource, Repository } from 'typeorm';
-import { Associado } from './associado/associado.entity';
 
 const votoRepository: Provider<Repository<Voto>> = {
   provide: 'VOTO_REPOSITORY',
@@ -11,12 +10,4 @@ const votoRepository: Provider<Repository<Voto>> = {
   inject: ['DATA_SOURCE'],
 };
 
-const associadoRepository: Provider<Repository<Associado>> = {
-  provide: 'ASSOCIADO_REPOSITORY',
-  useFactory: (dataSource: DataSource) => {
-    return dataSource.getRepository(Associado);
-  },
-  inject: ['DATA_SOURCE'],
-};
-
-export const votoProviders: Provider[] = [votoRepository, associadoRepository];
+export const votoProviders: Provider[] = [votoRepository];

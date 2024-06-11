@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Associado } from './associado/associado.entity';
+import { Associado } from '../associado/associado.entity';
 
 @Entity()
 export class Voto {

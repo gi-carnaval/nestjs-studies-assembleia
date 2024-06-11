@@ -1,10 +1,10 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { VoteOption, Voto } from './voto.entity';
-import { AssociadoService } from './associado/associado.service';
+import { AssociadoService } from '../associado/associado.service';
 import { Pauta } from 'src/pautas/pauta.entity';
 import { Result } from 'src/common/result';
-import { Associado } from './associado/associado.entity';
+import { Associado } from '../associado/associado.entity';
 import { HttpError } from 'src/common/httpError';
 import { ResultadoVotacaoResource } from './resultado/resultado.resource';
 
@@ -21,7 +21,6 @@ export class VotoService {
     cpf: string,
     opcaoVoto: VoteOption,
   ): Promise<Result<Voto, HttpError>> {
-    console.log('Status da Pauta: ', pauta.isInitialized());
     if (!pauta.isInitialized()) {
       return new Result(
         null,
@@ -32,7 +31,14 @@ export class VotoService {
       );
     }
 
-    const associado = await this.associadoService.recuperarOuCadastrar(cpf);
+    const associado = await this.associadoService.verifyAssociateByCpf(cpf);
+
+    if (!associado) {
+      return new Result(
+        null,
+        new HttpError('Associado não cadastrado.', HttpStatus.NOT_FOUND),
+      );
+    }
 
     const votoJaRegistrado: boolean = await this.existeVotoPara(
       pauta,
