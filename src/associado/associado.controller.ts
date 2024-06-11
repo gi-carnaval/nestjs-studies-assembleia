@@ -12,18 +12,26 @@ import { AssociadoService } from './associado.service';
 import { Response } from 'express';
 import { ErrorResponse } from 'src/common/error.resource';
 import { createAssociateResource } from './associado.resource';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('associado')
+@ApiTags('Associado')
 export class AssociadoController {
   constructor(private readonly service: AssociadoService) {}
 
   @Get()
+  @ApiOperation({
+    description: 'Rota destinada a listagem de todos os associados',
+  })
   async list(@Res() response: Response) {
     const results = await this.service.getAll();
     return response.status(HttpStatus.OK).send(results);
   }
 
   @Get('/:id')
+  @ApiOperation({
+    description: 'Rota destinada a listagem de um associado',
+  })
   async getById(@Param('id') id: string, @Res() response: Response) {
     const associate = await this.service.getById(id);
     if (!associate) {
@@ -35,6 +43,9 @@ export class AssociadoController {
   }
 
   @Post()
+  @ApiOperation({
+    description: 'Rota destinada a criação de um novo associado',
+  })
   async createAssociate(
     @Body() resource: createAssociateResource,
     @Res() response: Response,
@@ -60,6 +71,9 @@ export class AssociadoController {
   }
 
   @Put('/:id')
+  @ApiOperation({
+    description: 'Rota destinada a edição de um associado',
+  })
   async updateAssociate(
     @Param('id') id: string,
     @Body() resource: createAssociateResource,
